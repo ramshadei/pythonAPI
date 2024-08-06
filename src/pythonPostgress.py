@@ -16,7 +16,7 @@ DATABASE = 'testdb'  # Replace with your PostgreSQL database name
 engine = create_engine(f'{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{ENDPOINT}:{PORT}/{DATABASE}')
 
 # Read the CSV file into a DataFrame
-csv_file_path = "./customers.csv"  # Replace with the path to your CSV file
+csv_file_path = '../customers.csv'  # Replace with the path to your CSV file
 df = pd.read_csv(csv_file_path)
 
 # Load the DataFrame into PostgreSQL
