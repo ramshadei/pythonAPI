@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Run your Python script
-                    sh 'python src/pythonPostgress.py'
+                    sh 'python  src/dbapi.py'
                 }
             }
         }
