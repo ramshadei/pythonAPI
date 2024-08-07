@@ -2,17 +2,18 @@ from urllib.parse import quote_plus
 import pandas as pd
 from sqlalchemy import create_engine
 from flask import Flask, jsonify
+import os
 
 app = Flask(__name__)
 # Define your PostgreSQL connection parameters
 DATABASE_TYPE = 'postgresql'
 DBAPI = 'psycopg2'
-ENDPOINT = '18.132.73.146'  # Replace with your PostgreSQL server endpoint
-USER = 'consultants'  # Replace with your PostgreSQL username
-PASSWORD = 'WelcomeItc@2022'  # Replace with your PostgreSQL password
+ENDPOINT = os.getenv('DB_ENDPOINT')
+USER = os.getenv('DB_USER')
+PASSWORD = os.getenv('DB_PASSWORD')
 PASSWORD = quote_plus(PASSWORD)
-PORT = 5432  # Default PostgreSQL port
-DATABASE = 'testdb'  # Replace with your PostgreSQL database name
+PORT = os.getenv('DB_PORT')
+DATABASE = os.getenv('DB_NAME')
 
 # Create a SQLAlchemy engine
 engine = create_engine(f'{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{ENDPOINT}:{PORT}/{DATABASE}')
