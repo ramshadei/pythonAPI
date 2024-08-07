@@ -8,12 +8,12 @@ app = Flask(__name__)
 # Define your PostgreSQL connection parameters
 DATABASE_TYPE = 'postgresql'
 DBAPI = 'psycopg2'
-ENDPOINT = os.getenv('DB_ENDPOINT')
-USER = os.getenv('DB_USER')
-PASSWORD = os.getenv('DB_PASSWORD')
+ENDPOINT = os.getenv('ENDPOINT')
+USER = os.getenv('USER')
+PASSWORD = os.getenv('PASSWORD')
 PASSWORD = quote_plus(str(PASSWORD))
-PORT = os.getenv('DB_PORT')
-DATABASE = os.getenv('DB_NAME')
+PORT = os.getenv('PORT')
+DATABASE = os.getenv('DATABASE')
 
 # Create a SQLAlchemy engine
 engine = create_engine(f'{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{ENDPOINT}:{PORT}/{DATABASE}')
@@ -32,5 +32,5 @@ def get_data():
     # Return the data as JSON
     return jsonify(data)
 
-if _name_ == '__main__':
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
