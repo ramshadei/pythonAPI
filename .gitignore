@@ -3,3 +3,8 @@ jenkinsDetails.txt
 readApi.py
 data.json
 .env
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.DS_Store
