@@ -2,11 +2,11 @@ pipeline {
     agent any
     environment {
         VENV_DIR = 'venv'
-        ENDPOINT = credentials('DB_ENDPOINT')
-        USER = credentials('DB_USER')
-        PASSWORD = credentials('DB_PASSWORD')
-        PORT = credentials('DB_PORT')
-        DATABASE = credentials('DB_NAME')
+        ENDPOINT = credentials('ENDPOINT')
+        USER = credentials('USER')
+        PASSWORD = credentials('PASSWORD')
+        PORT = credentials('PORT')
+        DATABASE = credentials('DATABASE')
     }
     stages {
         stage('Clone Repository') {
