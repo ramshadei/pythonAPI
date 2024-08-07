@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Run your Python script
-                    sh 'python  src/dbapi.py'
+                    sh 'python3  src/dbapi.py'
                 }
             }
         }
