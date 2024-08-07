@@ -32,5 +32,5 @@ def get_data():
     # Return the data as JSON
     return jsonify(data)
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5300, debug=True)
+if _name_ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
