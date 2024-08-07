@@ -11,7 +11,7 @@ DBAPI = 'psycopg2'
 ENDPOINT = os.getenv('DB_ENDPOINT')
 USER = os.getenv('DB_USER')
 PASSWORD = os.getenv('DB_PASSWORD')
-PASSWORD = quote_plus(PASSWORD)
+PASSWORD = quote_plus(str(PASSWORD))
 PORT = os.getenv('DB_PORT')
 DATABASE = os.getenv('DB_NAME')
 
