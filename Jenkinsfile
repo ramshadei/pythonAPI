@@ -9,19 +9,33 @@ pipeline {
                 git url: 'https://github.com/muyiwao/APIPython.git', branch: 'main'
             }
         }
+        stage('Set Up Virtual Environment') {
+            steps {
+                script {
+                    // Create a virtual environment
+                    sh 'python3 -m venv ${VENV_DIR}'
+                }
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Install dependencies from requirements.txt
-                    sh 'pip install -r requirements.txt'
+                    // Activate virtual environment and install dependencies
+                    sh '''
+                        source ${VENV_DIR}/bin/activate
+                        pip install -r requirements.txt
+                    '''
                 }
             }
         }
         stage('Run Application') {
             steps {
                 script {
-                    // Run your Python script
-                    sh 'python3  src/dbapi.py'
+                    // Activate virtual environment and run the application
+                    sh '''
+                        source ${VENV_DIR}/bin/activate
+                        python3 src/dbapi.py
+                    '''
                 }
             }
         }

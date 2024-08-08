@@ -3,12 +3,12 @@ import pandas as pd
 from sqlalchemy import create_engine
 from flask import Flask, jsonify
 import os
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
 # Load environment variables from .env file
-# load_dotenv()
+load_dotenv()
 
 
 # Function to get environment variables with error handling
