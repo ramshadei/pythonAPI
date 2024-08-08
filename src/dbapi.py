@@ -1,7 +1,7 @@
 from urllib.parse import quote_plus
 import pandas as pd
 from sqlalchemy import create_engine
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 import os
 from dotenv import load_dotenv
 
@@ -46,6 +46,23 @@ def get_data():
 
     # Return the data as JSON
     return jsonify(data)
+
+
+@app.route('/data', methods=['POST'])
+def add_data():
+    try:
+        # Get the JSON data from the request
+        new_data = request.get_json()
+
+        # Convert the JSON data to a DataFrame
+        df = pd.DataFrame([new_data])
+
+        # Insert the DataFrame into the PostgreSQL table
+        df.to_sql(table_name, engine, if_exists='append', index=False)
+
+        return jsonify({"message": "Data added successfully"}), 201
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
 if __name__ == '__main__':
