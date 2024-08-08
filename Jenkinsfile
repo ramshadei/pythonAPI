@@ -20,9 +20,10 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 script {
-                    // Activate virtual environment and install dependencies
+                    // Activate virtual environment, upgrade pip, and install dependencies
                     sh '''
                         source ${VENV_DIR}/bin/activate
+                        pip install --upgrade pip
                         pip install -r requirements.txt
                     '''
                 }
