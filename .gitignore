@@ -1,7 +1,7 @@
-customers.csv
+data/customers.csv
 jenkinsDetails.txt
 readApi.py
-data.json
+data/data.json
 .env
 __pycache__/
 *.pyc
