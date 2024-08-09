@@ -2,12 +2,11 @@ pipeline {
     agent any
     environment {
         VENV_DIR = 'venv'
-        // Environment variables are now taken directly from the global properties
-        DB_USER = env.USER
-        DB_PASSWORD = env.PASSWORD
-        DB_ENDPOINT = env.ENDPOINT
-        DB_PORT = env.PORT
-        DB_NAME = env.DATABASE
+        DB_USER = "${env.USER}"
+        DB_PASSWORD = "${env.PASSWORD}"
+        DB_ENDPOINT = "${env.ENDPOINT}"
+        DB_PORT = "${env.PORT}"
+        DB_NAME = "${env.DATABASE}"
     }
     stages {
         stage('Clone Repository') {
@@ -41,11 +40,6 @@ pipeline {
                     // Activate virtual environment and run the application
                     sh '''
                         source ${VENV_DIR}/bin/activate
-                        export ENDPOINT=${DB_ENDPOINT}
-                        export USER=${DB_USER}
-                        export PASSWORD=${DB_PASSWORD}
-                        export PORT=${DB_PORT}
-                        export DATABASE=${DB_NAME}
                         python3 src/dbapi.py
                     '''
                 }
