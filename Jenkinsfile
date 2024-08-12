@@ -14,33 +14,35 @@ pipeline {
                 git url: 'https://github.com/muyiwao/APIPython.git', branch: 'main'
             }
         }
-        stage('Set Up Virtual Environment') {
+
+        stage('Build Docker Image') {
             steps {
                 script {
-                    // Create a virtual environment
-                    sh 'python3 -m venv ${VENV_DIR}'
+                    sh 'docker build -t flask-api-container .'
                 }
             }
         }
-        stage('Install Dependencies') {
+
+        stage('Run Docker Container') {
             steps {
                 script {
-                    // Activate virtual environment, upgrade pip, and install dependencies
+                    // Stop and remove any existing container
                     sh '''
-                        source ${VENV_DIR}/bin/activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
+                        docker stop flask-api-container || true
+                        docker rm flask-api-container || true
                     '''
-                }
-            }
-        }
-        stage('Run Application') {
-            steps {
-                script {
-                    // Activate virtual environment and run the application
+
+                    // Run the Docker container with environment variables for database credentials
                     sh '''
-                        source ${VENV_DIR}/bin/activate
-                        python3 src/dbapi.py
+                        docker run -d \
+                            -p 5000:5000 \
+                            --name flask-api-container \
+                            -e DB_USER=${DB_USER} \
+                            -e DB_PASSWORD=${DB_PASSWORD} \
+                            -e DB_ENDPOINT=${DB_ENDPOINT} \
+                            -e DB_PORT=${DB_PORT} \
+                            -e DB_NAME=${DB_NAME} \
+                            flask-api-container
                     '''
                 }
             }
