@@ -42,7 +42,7 @@ pipeline {
                     // Activate virtual environment and run pytest
                     sh '''
                         source ${VENV_DIR}/bin/activate
-                        pytest app_test.py --junitxml=test-results.xml
+                        pytest test_app.py --junitxml=test-results.xml
                     '''
                 }
             }
