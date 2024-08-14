@@ -70,11 +70,11 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    touch k8s/file1.txt
-                    /*sh '''
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    '''*/
+                    sh 'touch k8s/file1.txt'
+                    //sh '''
+                    //kubectl apply -f k8s/deployment.yaml
+                    //kubectl apply -f k8s/service.yaml
+                    //'''
                 }
             }
         }
