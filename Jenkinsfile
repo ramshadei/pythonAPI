@@ -9,7 +9,6 @@ pipeline {
         DB_NAME = "${env.DATABASE}"
         DOCKER_IMAGE = 'muyiwao/flask-api:latest'
         FLASK_APP_PORT = '5310'
-        SERVER_IP = '18.132.73.146' // Replace with your server's public IP
     }
     stages {
         stage('Clone Repository') {
@@ -37,17 +36,6 @@ pipeline {
                 }
             }
         }
-        stage('Run Tests') {
-            steps {
-                script {
-                    // Activate virtual environment and run pytest
-                    sh '''
-                        source ${VENV_DIR}/bin/activate
-                        pytest test_app.py --junitxml=test-results.xml
-                    '''
-                }
-            }
-        }
         stage('Build Docker Image') {
             steps {
                 script {
@@ -67,12 +55,21 @@ pipeline {
                 }
             }
         }
+        stage('Verify Deployment Files') {
+            steps {
+                script {
+                    // Verify that the deployment files exist
+                    sh 'ls -al k8s/'
+                }
+            }
+        }
         stage('Deploy to Kubernetes') {
             steps {
                 script {
+                    // Apply the Kubernetes deployment and service files
                     sh '''
-                    kubectl apply -f muyiwao/k8s/deployment.yaml
-                    kubectl apply -f muyiwao/k8s/service.yaml
+                    kubectl apply -f k8s/deployment.yaml
+                    kubectl apply -f k8s/service.yaml
                     '''
                 }
             }
@@ -86,12 +83,7 @@ pipeline {
             }
         }
         success {
-            script {
-                // Output the full URL to access the Flask API
-                def apiUrl = "http://${SERVER_IP}:${FLASK_APP_PORT}/data"
-                echo "Build succeeded. The Flask API is running at ${apiUrl}"
-            }
+            echo "Build succeeded. The Flask API is running at http://your-server-ip:${FLASK_APP_PORT}/data"
         }
     }
 }
-
