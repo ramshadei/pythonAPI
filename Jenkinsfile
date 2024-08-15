@@ -55,18 +55,17 @@ pipeline {
                 }
             }
         }
-        stage('Verify Deployment Files') {
+        stage('Clean Up Unnecessary Files') {
             steps {
                 script {
-                    // Verify that the deployment files exist
-                    sh 'ls -al k8s/'
+                    // Remove unnecessary files
+                    sh 'rm -f k8s/file1.txt'
                 }
             }
         }
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    // Apply the Kubernetes deployment and service files
                     sh '''
                     kubectl apply -f k8s/deployment.yaml
                     kubectl apply -f k8s/service.yaml
