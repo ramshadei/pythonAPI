@@ -67,17 +67,16 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Kubernetes') {
+        /*stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    sh 'touch k8s/file1.txt'
                     //sh '''
                     //kubectl apply -f k8s/deployment.yaml
                     //kubectl apply -f k8s/service.yaml
                     //'''
                 }
             }
-        }
+        }*/
     }
     post {
         always {
