@@ -71,8 +71,8 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    kubectl apply -f muyiwao/8s/deployment.yaml
-                    kubectl apply -f muyiwao/8s/service.yaml
+                    kubectl apply -f muyiwao/k8s/deployment.yaml
+                    kubectl apply -f muyiwao/k8s/service.yaml
                     '''
                 }
             }
