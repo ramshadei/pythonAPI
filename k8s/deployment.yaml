@@ -18,16 +18,16 @@ spec:
       containers:
       - name: flask-api
         image: muyiwao/flask-api:latest
-  ports:
-    - containerPort: 5310
-  env:
-    - name: ENDPOINT
-      value: "${DB_ENDPOINT}"
-    - name: USER
-      value: "${DB_USER}"
-    - name: PASSWORD
-      value: "${DB_PASSWORD}"
-    - name: PORT
-      value: "${DB_PORT}"
-    - name: DATABASE
-      value: "${DB_NAME}"
+        ports:
+        - containerPort: 5310
+        env:
+        - name: ENDPOINT
+          value: "18.132.73.146"
+        - name: USER
+          value: "consultants"
+        - name: PASSWORD
+          value: "WelcomeItc@2022"
+        - name: PORT
+          value: "5432"
+        - name: DATABASE
+          value: "testdb"
