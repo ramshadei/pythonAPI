@@ -20,12 +20,12 @@ spec:
         image: muyiwao/flask-api:latest
         ports:
         - name: ENDPOINT
-          value: "${DB_ENDPOINT}"
+          value: "${env.USER}"
         - name: USER
-          value: "${DB_USER}"
+          value: "${env.PASSWORD}"
         - name: PASSWORD
-          value: "${DB_PASSWORD}"
+          value: "${env.ENDPOINT}"
         - name: PORT
-          value: "${DB_PORT}"
+          value: "${env.PORT}"
         - name: DATABASE
-          value: "${DB_NAME}"
+          value: "${env.DATABASE}"
