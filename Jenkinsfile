@@ -37,6 +37,17 @@ pipeline {
                 }
             }
         }
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Activate virtual environment and run pytest
+                    sh '''
+                        source ${VENV_DIR}/bin/activate
+                        pytest test_app.py --junitxml=test-results.xml
+                    '''
+                }
+            }
+        }
         stage('Build Docker Image') {
             steps {
                 script {
