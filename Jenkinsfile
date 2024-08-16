@@ -85,8 +85,7 @@ pipeline {
         }
         success {
             // Output the full URL to access the Flask API
-            def apiUrl = "http://${SERVER_IP}:${FLASK_APP_PORT}/data"
-            echo "Build succeeded. The Flask API is running at ${apiUrl}"
+            echo "Build succeeded. The Flask API is running at http://${SERVER_IP}:${FLASK_APP_PORT}/data"
         }
     }
 }
