@@ -88,12 +88,6 @@ pipeline {
         }
     }
     post {
-        always {
-            script {
-                // Clean up Docker images
-                sh 'docker rmi ${DOCKER_IMAGE}'
-            }
-        }
         success {
             // Output the full URL to access the Flask API
             echo "Build succeeded. The Flask API is running at http://${SERVER_IP}:${FLASK_APP_PORT}/data"
