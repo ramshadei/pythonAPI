@@ -9,6 +9,7 @@ pipeline {
         DB_NAME = "${env.DATABASE}"
         DOCKER_IMAGE = 'muyiwao/flask-api:latest'
         FLASK_APP_PORT = '5310'
+        SERVER_IP = '18.132.73.146' // Replace with your server's public IP
     }
     stages {
         stage('Clone Repository') {
@@ -83,7 +84,9 @@ pipeline {
             }
         }
         success {
-            echo "Build succeeded. The Flask API is running at http://your-server-ip:${FLASK_APP_PORT}/data"
+            // Output the full URL to access the Flask API
+            def apiUrl = "http://${SERVER_IP}:${FLASK_APP_PORT}/data"
+            echo "Build succeeded. The Flask API is running at ${apiUrl}"
         }
     }
 }
