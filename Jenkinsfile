@@ -2,11 +2,6 @@ pipeline {
     agent any
     environment {
         VENV_DIR = 'venv'
-        DB_USER = "${env.USER}"
-        DB_PASSWORD = "${env.PASSWORD}"
-        DB_ENDPOINT = "${env.ENDPOINT}"
-        DB_PORT = "${env.PORT}"
-        DB_NAME = "${env.DATABASE}"
         DOCKER_IMAGE = 'muyiwao/flask-api:latest'
         FLASK_APP_PORT = '5310'
         SERVER_IP = '18.132.73.146' // Replace with your server's public IP
