@@ -2,6 +2,7 @@ data/customers.csv
 jenkinsDetails.txt
 readApi.py
 data/data.json
+test_key.pem
 .env
 __pycache__/
 *.pyc
