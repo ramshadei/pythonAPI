@@ -23,9 +23,8 @@ pipeline {
             steps {
                 script {
                     echo "Installing dependencies..."
-                    sh 'pip install -r requirements.txt'
-                    echo "Building the Python project..."
-                    sh 'python setup.py build || echo "No setup.py, skipping build"'
+                    pip 'install --upgrade pip'
+                    pip 'install -r requirements.txt'
                 }
             }
         }
