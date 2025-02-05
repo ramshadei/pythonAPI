@@ -68,17 +68,6 @@ pipeline {
             }
         }
     }
-<<<<<<< HEAD
-    post {
-        success {
-            // Output the full URL to access the Flask API
-            echo "Build succeeded. The Flask API is running at http://${SERVER_IP}:${FLASK_APP_PORT}/data"
-        }
-    }
-}
-
-
-=======
 
     post {
         success {
@@ -106,4 +95,3 @@ pipeline {
         }
     }
 }
->>>>>>> development
