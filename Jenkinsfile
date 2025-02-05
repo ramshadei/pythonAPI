@@ -1,87 +1,74 @@
 pipeline {
-    agent any
+    agent any  // Runs on any available Jenkins agent
+
     environment {
-        VENV_DIR = 'venv'
-        DOCKER_IMAGE = 'muyiwao/flask-api:latest'
-        FLASK_APP_PORT = '5310'
-        SERVER_IP = '18.132.73.146' // Replace with your server's public IP
+        DOCKER_IMAGE = "ramshaddev/flask-api:latest"
+        DOCKER_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
+        SMTP_SERVER = "smtp.gmail.com"
+        SMTP_PORT = "587"
+        EMAIL_RECIPIENTS = "ramshadei@gmail.com"
     }
+
     stages {
-        stage('Clone Repository') {
-            steps {
-                git url: 'https://github.com/muyiwao/APIPython.git', branch: 'main'
-            }
-        }
-        stage('Set Up Virtual Environment') {
+        stage('Checkout') {
             steps {
                 script {
-                    // Create a virtual environment
-                    sh 'python3 -m venv ${VENV_DIR}'
+                    echo "Cloning repository from GitHub..."
+                    checkout scm  // Automatically detects the correct branch
                 }
             }
         }
-        stage('Install Dependencies') {
+
+        stage('Build') {
             steps {
                 script {
-                    // Activate virtual environment, upgrade pip, and install dependencies
-                    sh '''
-                        source ${VENV_DIR}/bin/activate
-                        pip install --upgrade pip
-                        pip install -r requirements.txt
-                    '''
+                    echo "Installing dependencies..."
+                    sh 'pip install -r requirements.txt'
+                    echo "Building the Python project..."
+                    sh 'python setup.py build || echo "No setup.py, skipping build"'
                 }
             }
         }
-        stage('Run Tests') {
+
+        stage('Test') {
             steps {
                 script {
-                    // Activate virtual environment and run pytest
-                    sh '''
-                        source ${VENV_DIR}/bin/activate
-                        pytest test_app.py --junitxml=test-results.xml
-                    '''
+                    echo "Running unit tests..."
+                    sh 'pytest --junitxml=report.xml'
                 }
             }
         }
+
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    echo "Building Docker image..."
+                    sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
                 }
             }
         }
+
         stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    // Log in to Docker Hub
-                    withCredentials([usernamePassword(credentialsId: 'muyiwa-hub', usernameVariable: 'DOCKER_HUB_USERNAME', passwordVariable: 'DOCKER_HUB_PASSWORD')]) {
-                        sh 'echo ${DOCKER_HUB_PASSWORD} | docker login -u ${DOCKER_HUB_USERNAME} --password-stdin'
+                    withCredentials([string(credentialsId: 'docker-hub-token', variable: 'DOCKER_PASSWORD')]) {
+                        sh "echo ${DOCKER_PASSWORD} | docker login -u your-dockerhub-username --password-stdin"
+                        sh "docker push ${DOCKER_IMAGE}:${DOCKER_TAG}"
                     }
-                    // Push the image
-                    sh 'docker push ${DOCKER_IMAGE}'
                 }
             }
         }
-        stage('Verify Deployment Files') {
+
+        stage('Trigger Downstream Job') {
             steps {
                 script {
-                    // Verify that the deployment files exist
-                    sh 'ls -al k8s/'
-                }
-            }
-        }
-        stage('Deploy to Kubernetes') {
-            steps {
-                script {
-                    // Apply the Kubernetes deployment and service files
-                    sh '''
-                    kubectl apply -f k8s/deployment.yaml
-                    kubectl apply -f k8s/service.yaml
-                    '''
+                    echo "Triggering downstream deployment job..."
+                    build job: 'Downstream_Deployment_Job'
                 }
             }
         }
     }
+<<<<<<< HEAD
     post {
         success {
             // Output the full URL to access the Flask API
@@ -91,3 +78,32 @@ pipeline {
 }
 
 
+=======
+
+    post {
+        success {
+            script {
+                echo "Pipeline completed successfully!"
+            }
+            emailext(
+                subject: "Jenkins Build SUCCESS: ${env.JOB_NAME}",
+                body: "The Jenkins build ${env.BUILD_NUMBER} for ${env.JOB_NAME} has succeeded.\nView details: ${env.BUILD_URL}",
+                to: "${EMAIL_RECIPIENTS}",
+                from: "your-email@gmail.com"
+            )
+        }
+
+        failure {
+            script {
+                echo "Pipeline failed!"
+            }
+            emailext(
+                subject: "Jenkins Build FAILED: ${env.JOB_NAME}",
+                body: "The Jenkins build ${env.BUILD_NUMBER} for ${env.JOB_NAME} has failed.\nCheck logs: ${env.BUILD_URL}",
+                to: "${EMAIL_RECIPIENTS}",
+                from: "ramshadei@gmail.com"
+            )
+        }
+    }
+}
+>>>>>>> development
