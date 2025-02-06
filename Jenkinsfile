@@ -18,23 +18,34 @@ pipeline {
                 }
             }
         }
-
-        stage('Build') {
+        stage('Set Up Virtual Environment') {
             steps {
                 script {
-                    echo "Installing dependencies..."
-                    sh 'pip install -r requirements.txt'
-                    echo "Building the Python project..."
-                    sh 'python setup.py build || echo "No setup.py, skipping build"'
+                    // Create a virtual environment
+                    sh 'python3 -m venv ${VENV_DIR}'
                 }
             }
         }
-
-        stage('Test') {
+        stage('Install Dependencies') {
             steps {
                 script {
-                    echo "Running unit tests..."
-                    sh 'pytest --junitxml=report.xml'
+                    // Activate virtual environment, upgrade pip, and install dependencies
+                    sh '''
+                        source ${VENV_DIR}/bin/activate
+                        pip install --upgrade pip
+                        pip install -r requirements.txt
+                    '''
+                }
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                script {
+                    // Activate virtual environment and run pytest
+                    sh '''
+                        source ${VENV_DIR}/bin/activate
+                        pytest test_app.py --junitxml=test-results.xml
+                    '''
                 }
             }
         }
