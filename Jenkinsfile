@@ -2,6 +2,7 @@ pipeline {
     agent any  // Runs on any available Jenkins agent
 
     environment {
+        VENV_DIR = 'venv'
         DOCKER_IMAGE = "ramshaddev/flask-api:latest"
         DOCKER_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
         SMTP_SERVER = "smtp.gmail.com"
