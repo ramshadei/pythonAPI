@@ -18,13 +18,6 @@ pipeline {
                 }
             }
         }
-
-        stages {
-        stage('Clone Repository') {
-            steps {
-                git url: 'https://github.com/guillou73/APIPython.git', branch: 'main'
-            }
-        }
         stage('Set Up Virtual Environment') {
             steps {
                 script {
