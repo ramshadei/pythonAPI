@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VENV_DIR = 'venv'
-        DOCKER_IMAGE = "ramshaddev/flask-api:latest"
+        DOCKER_IMAGE = "ramshaddev/flask-api"
         DOCKER_TAG = "${env.BRANCH_NAME}-${env.BUILD_NUMBER}"
         SMTP_SERVER = "smtp.gmail.com"
         SMTP_PORT = "587"
