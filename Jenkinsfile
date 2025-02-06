@@ -59,14 +59,12 @@ pipeline {
                 }
             }
         }
-
-        stage('Push Docker Image to Docker Hub') {
+        
+        stage('Push Docker Image') {
             steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-rams', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
-                        sh "docker push ${IMAGE_NAME}"
-                    }
+                withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-rams', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                    sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
+                    sh "docker push ${IMAGE_NAME}"
                 }
             }
         }
