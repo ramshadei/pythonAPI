@@ -90,7 +90,7 @@ pipeline {
                 subject: "Jenkins Build SUCCESS: ${env.JOB_NAME}",
                 body: "The Jenkins build ${env.BUILD_NUMBER} for ${env.JOB_NAME} has succeeded.\nView details: ${env.BUILD_URL}",
                 to: "${EMAIL_RECIPIENTS}",
-                from: "your-email@gmail.com"
+                from: "ramshadei@gmail.com"
             )
         }
 
