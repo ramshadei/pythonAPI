@@ -70,12 +70,13 @@ pipeline {
             }
         }
 
-        stage('Trigger Downstream Job') {
+        stage('Trigger Deployment Job') {
+            when {
+                branch 'main'
+            }
             steps {
-                script {
-                    echo "Triggering downstream deployment job..."
-                    build job: 'Downstream_Deployment_Job'
-                }
+                echo 'Triggering downstream deployment job...'
+                build job: 'Ramshad_job', wait: false
             }
         }
     }
