@@ -66,9 +66,12 @@ pipeline {
                     withCredentials([usernamePassword(credentialsId: 'docker-hub-credentials-rams', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                         sh 'echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin'
                     }
-                }                
-                echo "Pushing image to Docker Hub..."
-                sh "docker push ${imageTag}"
+                }
+                script{
+                    def imageTag= ${DOCKER_IMAGE}:${DOCKER_TAG}
+                    echo "Pushing Image to Docker hub"
+                    sh "docker push ${imageTag}"
+                }          
             }
         }
 
